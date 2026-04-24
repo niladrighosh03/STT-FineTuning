@@ -1,4 +1,19 @@
-model_name: openai/whisper-small
+model_name: openai/whisper-medium
+
+# 🔥 LoRA settings
+use_lora: true
+freeze_base_model: true
+
+lora_r: 16
+lora_alpha: 32
+lora_dropout: 0.05
+
+# ⚡ performance
+torch_compile: false
+
+# 🎯 precision (H200 optimized)
+bf16: true
+fp16: false
 
 dataset:
   name: librispeech_asr
@@ -8,13 +23,12 @@ dataset:
 
 training:
   output_dir: ./outputs
-  batch_size: 8
-  eval_batch_size: 8
+  batch_size: 4
+  eval_batch_size: 4
+  gradient_accumulation_steps: 4
   learning_rate: 1e-5
   num_epochs: 3
   warmup_steps: 500
   logging_steps: 50
   eval_steps: 500
   save_steps: 500
-  gradient_accumulation_steps: 2
-  fp16: true

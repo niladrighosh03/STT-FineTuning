@@ -1,0 +1,14 @@
+README.md
+pyproject.toml
+src/__init__.py
+src/collator.py
+src/dataset.py
+src/metrics.py
+src/model.py
+src/trainer.py
+src/utils.py
+stt_finetuning.egg-info/PKG-INFO
+stt_finetuning.egg-info/SOURCES.txt
+stt_finetuning.egg-info/dependency_links.txt
+stt_finetuning.egg-info/requires.txt
+stt_finetuning.egg-info/top_level.txt

@@ -1,0 +1,15 @@
+Metadata-Version: 2.4
+Name: stt-finetuning
+Version: 0.1.0
+Summary: Add your description here
+Requires-Python: >=3.12
+Description-Content-Type: text/markdown
+Requires-Dist: accelerate>=1.13.0
+Requires-Dist: datasets>=4.8.4
+Requires-Dist: evaluate>=0.4.6
+Requires-Dist: jiwer>=4.0.0
+Requires-Dist: peft>=0.19.1
+Requires-Dist: pyyaml>=6.0.3
+Requires-Dist: torch>=2.11.0
+Requires-Dist: torchaudio>=2.11.0
+Requires-Dist: transformers>=5.6.2

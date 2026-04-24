@@ -13,4 +13,4 @@ def preprocess_function(batch, processor):
     batch["input_features"] = inputs.input_features[0]
     batch["labels"] = labels
 
-    return batch``
+    return batch
