@@ -1,7 +1,18 @@
 import io
 import os
 import numpy as np
-from datasets import load_dataset, Audio, Dataset
+from datasets import load_dataset, Audio, Dataset, load_from_disk
+
+
+# ── Disk location written by download_dataset.py ─────────────────────────────
+_DATASET_DISK_ROOT = "/workspace/datasets/librispeech_clean"
+
+_SPLIT_FOLDER = {
+    "train.360" : "train",
+    "train.100" : "train_100",
+    "validation": "validation",
+    "test"      : "test",
+}
 
 
 def _decode_audio_safe(example):
@@ -17,7 +28,7 @@ def _decode_audio_safe(example):
     """
     audio = example.get("audio", {})
 
-    # ── Already decoded by datasets Audio feature ──────────────────────
+    # ── Already decoded ─────────────────────────────────────────────────
     if isinstance(audio, dict) and isinstance(audio.get("array"), np.ndarray):
         return example
 
@@ -37,33 +48,28 @@ def _decode_audio_safe(example):
         else:
             raise ValueError("No audio source available")
 
-        # Mix down to mono
         if waveform.shape[0] > 1:
             waveform = waveform.mean(dim=0, keepdim=True)
-
-        # Resample to 16 kHz if needed
         if sr != 16000:
             resampler = torchaudio.transforms.Resample(orig_freq=sr, new_freq=16000)
             waveform  = resampler(waveform)
             sr = 16000
-
         arr = waveform.squeeze(0).numpy().astype(np.float32)
 
     except Exception:
-        pass  # fall through
+        pass
 
     # ── 2. soundfile ───────────────────────────────────────────────────
     if arr is None:
         try:
             import soundfile as sf
-
             if raw_bytes:
                 arr, sr = sf.read(io.BytesIO(raw_bytes))
             elif path and os.path.exists(path):
                 arr, sr = sf.read(path)
             if arr is not None:
                 arr = arr.astype(np.float32)
-                if arr.ndim > 1:          # stereo → mono
+                if arr.ndim > 1:
                     arr = arr.mean(axis=1)
         except Exception:
             pass
@@ -72,46 +78,95 @@ def _decode_audio_safe(example):
     if arr is None:
         try:
             import librosa
-
             if raw_bytes:
                 arr, sr = librosa.load(io.BytesIO(raw_bytes), sr=16000, mono=True)
             elif path and os.path.exists(path):
                 arr, sr = librosa.load(path, sr=16000, mono=True)
         except Exception as exc:
-            print(f"[WARN] All audio decoders failed: {exc}. Using silence.")
+            print(f"[WARN] All audio decoders failed: {exc}. Using silence.", flush=True)
 
     # ── 4. Silent fallback ──────────────────────────────────────────────
     if arr is None:
         arr, sr = np.zeros(16000, dtype=np.float32), 16000
 
-    # ── Resample if a non-torchaudio path was taken ─────────────────────
+    # ── Resample if needed ───────────────────────────────────────────────
     if sr != 16000:
         try:
             import librosa
             arr = librosa.resample(arr.astype(np.float32), orig_sr=sr, target_sr=16000)
         except Exception:
-            pass   # best-effort
+            pass
 
+    # Store flat decoded array — NOT an Audio feature struct.
+    # Do NOT cast_column(Audio(...)) on the materialised dataset; that would
+    # trigger torchcodec to re-encode. preprocess_function reads these keys directly.
     example["audio"] = {"array": arr.astype(np.float32), "sampling_rate": 16000}
     return example
 
 
+def _load_split_from_disk(split_name: str, max_samples: int) -> Dataset | None:
+    """
+    Try to load a pre-downloaded split from /workspace/datasets/.
+    Returns None if it doesn't exist on disk.
+    """
+    folder = _SPLIT_FOLDER.get(split_name, split_name.replace(".", "_"))
+    path   = os.path.join(_DATASET_DISK_ROOT, folder)
+
+    if not os.path.exists(path):
+        return None
+
+    print(f"  📂 Loading from disk: {path}", flush=True)
+    dataset = load_from_disk(path)
+
+    # Optionally cap the number of samples
+    if max_samples and len(dataset) > max_samples:
+        print(f"     Capping to {max_samples:,} / {len(dataset):,} samples", flush=True)
+        dataset = dataset.select(range(max_samples))
+
+    print(f"  ✅ Loaded {len(dataset):,} samples from disk", flush=True)
+    return dataset
+
+
+def _stream_split(dataset_name: str, subset: str | None, split_name: str, max_samples: int) -> Dataset:
+    """
+    Fall-back: stream from HuggingFace and decode audio on the fly.
+    """
+    print(f"  🌐 Streaming from HuggingFace (no local cache found)...", flush=True)
+    load_kwargs: dict = dict(streaming=True)
+    if subset:
+        load_kwargs["name"] = subset
+
+    stream = load_dataset(dataset_name, split=split_name, **load_kwargs)
+    # Disable auto-decode to avoid torchcodec requirement
+    stream = stream.cast_column("audio", Audio(sampling_rate=16000, decode=False))
+
+    samples = []
+    for i, ex in enumerate(stream):
+        samples.append(ex)  # NO DECODING HERE! Keep it massively compressed in RAM
+        if (i + 1) % 1000 == 0:
+            print(f"    ... {i+1:,} samples streamed", flush=True)
+        if len(samples) >= max_samples:
+            break
+
+    return Dataset.from_list(samples)
+
+
 def load_data(config):
     """
-    Load a sufficiently large streaming subset of LibriSpeech for fine-tuning
-    on H200. All data is streamed so nothing is cached to disk up front.
+    Load dataset for fine-tuning.
 
-    Config keys read from config["dataset"]:
-        name                  HuggingFace dataset id  (librispeech_asr)
-        subset                config name / subset     (clean)
-        train_split           e.g. 'train.360'
-        val_split             e.g. 'validation'
-        max_train_samples     number of training examples  (default 28 000)
-        max_val_samples       number of validation examples (default 2 760)
+    Priority:
+      1. /workspace/datasets/librispeech_clean/<split>/  (save_to_disk cache)
+         → Downloaded once by scripts/download_dataset.py, loaded instantly.
+      2. HuggingFace streaming  (fallback when disk cache absent)
 
-    RunPod storage note:
-        HF_HOME / HF_DATASETS_CACHE is set to /workspace so large files land
-        on the 60 GB volume disk, not the 20 GB container disk.
+    Config keys (config["dataset"]):
+        name              HuggingFace dataset id
+        subset            subset / config name
+        train_split       e.g. 'train.360'
+        val_split         e.g. 'validation'
+        max_train_samples cap on training examples (default 28 000)
+        max_val_samples   cap on validation examples (default 2 760)
     """
     dataset_name = config["dataset"]["name"]
     subset       = config["dataset"].get("subset", None)
@@ -122,57 +177,27 @@ def load_data(config):
 
     print(
         f"Loading '{dataset_name}' (subset={subset}) — "
-        f"train_split={train_split} (up to {max_train:,} samples), "
-        f"val_split={val_split} (up to {max_val:,} samples)...",
+        f"train: '{train_split}' (≤{max_train:,}), "
+        f"val: '{val_split}' (≤{max_val:,})",
         flush=True,
     )
 
-    # ── Build load kwargs ────────────────────────────────────────────────
-    # NOTE: trust_remote_code is no longer accepted by HF datasets ≥ 2.x
-    # NOTE: decode=False prevents datasets from trying to use torchcodec;
-    #       we handle audio decoding ourselves via _decode_audio_safe().
-    load_kwargs = dict(streaming=True)
-    if subset:
-        load_kwargs["name"] = subset
+    # ── Training split ───────────────────────────────────────────────────
+    print(f"\n  ⬇ Train split ({train_split}):", flush=True)
+    train_dataset = (
+        _load_split_from_disk(train_split, max_train)
+        or _stream_split(dataset_name, subset, train_split, max_train)
+    )
 
-    train_stream = load_dataset(dataset_name, split=train_split, **load_kwargs)
-    val_stream   = load_dataset(dataset_name, split=val_split,   **load_kwargs)
-
-    # Disable the datasets built-in audio decoder so it doesn't try to call
-    # torchcodec.  We decode the raw bytes ourselves in _decode_audio_safe().
-    # cast_column with decode=False makes streaming yield {"bytes": ..., "path": ...}
-    # instead of trying to auto-decode.
-    train_stream = train_stream.cast_column("audio", Audio(sampling_rate=16000, decode=False))
-    val_stream   = val_stream.cast_column("audio",   Audio(sampling_rate=16000, decode=False))
-
-    # ── Materialise streaming subsets with safe audio decoding ──────────
-    print(f"  Streaming {max_train:,} train samples...", flush=True)
-    train_list = []
-    for i, ex in enumerate(train_stream):
-        train_list.append(_decode_audio_safe(ex))
-        if (i + 1) % 1000 == 0:
-            print(f"    ... {i + 1:,} train samples loaded", flush=True)
-        if len(train_list) >= max_train:
-            break
-
-    print(f"  Streaming {max_val:,} val samples...", flush=True)
-    val_list = []
-    for i, ex in enumerate(val_stream):
-        val_list.append(_decode_audio_safe(ex))
-        if (i + 1) % 500 == 0:
-            print(f"    ... {i + 1:,} val samples loaded", flush=True)
-        if len(val_list) >= max_val:
-            break
-
-    train_dataset = Dataset.from_list(train_list)
-    val_dataset   = Dataset.from_list(val_list)
-
-    # Cast audio column so datasets knows the dtype/sr
-    train_dataset = train_dataset.cast_column("audio", Audio(sampling_rate=16000))
-    val_dataset   = val_dataset.cast_column("audio",   Audio(sampling_rate=16000))
+    # ── Validation split ─────────────────────────────────────────────────
+    print(f"\n  ⬇ Val split ({val_split}):", flush=True)
+    val_dataset = (
+        _load_split_from_disk(val_split, max_val)
+        or _stream_split(dataset_name, subset, val_split, max_val)
+    )
 
     print(
-        f"✅ Dataset ready — {len(train_dataset):,} train / {len(val_dataset):,} val",
+        f"\n✅ Dataset ready — {len(train_dataset):,} train / {len(val_dataset):,} val",
         flush=True,
     )
     return train_dataset, val_dataset

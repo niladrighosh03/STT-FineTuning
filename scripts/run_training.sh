@@ -33,6 +33,7 @@ export HF_HUB_CACHE="${WORKSPACE}/hf_home/hub"
 # ── CUDA / PyTorch tuning for H200 ──────────────────────────
 export TOKENIZERS_PARALLELISM=false    # suppress HF tokenizer warning
 export PYTORCH_CUDA_ALLOC_CONF=expandable_segments:True
+export PYTHONUNBUFFERED=1              # force real-time output even when piped through tee
 
 # ── All output goes to: repo/output.log  AND  /workspace/.../logs/train_<ts>.log
 TIMESTAMPED_LOG="${LOG_DIR}/train_$(date +%Y%m%d_%H%M%S).log"

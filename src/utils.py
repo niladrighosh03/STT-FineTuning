@@ -1,16 +1,13 @@
 # Preprocessing the dataset: audio → log-mel features, text → token ids
 
+from src.dataset import _decode_audio_safe
+
 def preprocess_function(batch, processor):
     """
     Convert a single dataset example into Whisper model inputs.
-
-    Args:
-        batch: dict with keys 'audio' (datasets Audio dict) and a text key.
-        processor: WhisperProcessor (feature_extractor + tokenizer).
-
-    Returns:
-        batch with added 'input_features' and 'labels' keys.
     """
+    # ✨ UNCOMPRESS THE AUDIO ONLY AT THE EXACT MOMENT WE NEED IT
+    batch = _decode_audio_safe(batch)
     audio = batch["audio"]
 
     # --- Feature extraction (audio → 80-channel log-mel spectrogram) ---

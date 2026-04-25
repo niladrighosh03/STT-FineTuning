@@ -1,0 +1,45 @@
+# ============================================================
+# configs/config_test.yaml
+# Smoke-test config — tiny data, 1 step, no saving
+# Purpose: verify the full pipeline works before the real run
+# ============================================================
+
+model_name: openai/whisper-medium
+
+use_lora: true
+freeze_base_model: true
+
+lora_r: 8           # Smallest LoRA rank — fast to init
+lora_alpha: 16
+lora_dropout: 0.0
+
+torch_compile: false
+bf16: true
+fp16: false
+
+dataset:
+  name: librispeech_asr
+  subset: clean
+  train_split: train.360     # Use the split we downloaded to disk
+  val_split: validation
+  max_train_samples: 16      # Just 16 — enough for 1 batch
+  max_val_samples: 8         # Just 8 — 1 eval batch
+
+training:
+  output_dir: /workspace/whisper-smoke-test/outputs
+  logging_dir: /workspace/whisper-smoke-test/logs
+
+  batch_size: 4              # Small batch — fits any GPU
+  eval_batch_size: 4
+  gradient_accumulation_steps: 1
+
+  learning_rate: 1.0e-4
+  num_epochs: 1              # Single epoch over 16 samples = 4 steps
+  warmup_steps: 1
+
+  logging_steps: 1           # Log every step so we can see progress
+  eval_steps: 4              # Eval once at the end
+  save_steps: 4
+  save_total_limit: 1
+
+  dataloader_num_workers: 2

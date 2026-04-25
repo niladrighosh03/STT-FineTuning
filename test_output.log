@@ -1,0 +1,675 @@
+============================================================
+🧪  SMOKE TEST — Whisper Medium / LibriSpeech
+    16 train samples | 8 val samples | 1 epoch | batch=4
+    Sat Apr 25 08:58:06 UTC 2026
+============================================================
+NVIDIA H200 NVL, 143771 MiB
+Filesystem                   Size  Used Avail Use% Mounted on
+overlay                       20G  6.2G   14G  31% /
+mfs#us-md-1.runpod.net:9421  334T  258T   77T  78% /workspace
+
+📦  Syncing deps with uv...
+
+🚀  Launching smoke-test training...
+    Config : configs/config_test.yaml
+    Log    : /workspace/STT-FineTuning/test_output.log
+
+📝  All Python output mirrored to: /workspace/STT-FineTuning/test_output.log
+📝  All Python output mirrored to: /workspace/STT-FineTuning/test_output.log
+============================================================
+🚀  Whisper Medium Fine-tuning  (H200 / RunPod optimised)
+============================================================
+🚀  Whisper Medium Fine-tuning  (H200 / RunPod optimised)
+============================================================
+============================================================
+  GPU 0: NVIDIA H200 NVL  |  VRAM: 139.8 GB
+  GPU 0: NVIDIA H200 NVL  |  VRAM: 139.8 GB
+
+💾  Disk status:
+
+💾  Disk status:
+  Container disk (/): 6.6 GB used / 21.5 GB total (14.8 GB free)
+  Container disk (/): 6.6 GB used / 21.5 GB total (14.8 GB free)
+  Volume disk (/workspace): 282783.2 GB used / 366672.5 GB total (83889.3 GB free)
+  Volume disk (/workspace): 282783.2 GB used / 366672.5 GB total (83889.3 GB free)
+
+📄  Loading config...
+
+📄  Loading config...
+    Config : /workspace/STT-FineTuning/configs/config_test.yaml
+    Config : /workspace/STT-FineTuning/configs/config_test.yaml
+    Log    : /workspace/STT-FineTuning/test_output.log
+    Log    : /workspace/STT-FineTuning/test_output.log
+
+📦  Loading datasets...
+📦  Loading datasets...
+
+Loading 'librispeech_asr' (subset=clean) — train: 'train.360' (≤16), val: 'validation' (≤8)
+Loading 'librispeech_asr' (subset=clean) — train: 'train.360' (≤16), val: 'validation' (≤8)
+
+  ⬇ Train split (train.360):
+  ⬇ Train split (train.360):
+
+  📂 Loading from disk: /workspace/datasets/librispeech_clean/train
+  📂 Loading from disk: /workspace/datasets/librispeech_clean/train
+     Capping to 16 / 35,000 samples
+     Capping to 16 / 35,000 samples
+  ✅ Loaded 16 samples from disk
+  ✅ Loaded 16 samples from disk
+
+  ⬇ Val split (validation):
+  ⬇ Val split (validation):
+
+  📂 Loading from disk: /workspace/datasets/librispeech_clean/validation
+  📂 Loading from disk: /workspace/datasets/librispeech_clean/validation
+     Capping to 8 / 2,703 samples
+     Capping to 8 / 2,703 samples
+  ✅ Loaded 8 samples from disk
+  ✅ Loaded 8 samples from disk
+
+✅ Dataset ready — 16 train / 8 val
+✅ Dataset ready — 16 train / 8 val
+
+
+🏗️   Loading processor...
+🏗️   Loading processor...
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+⚙️   Preprocessing datasets (num_proc=4, train=16, val=8)...
+⚙️   Preprocessing datasets (num_proc=4, train=16, val=8)...
+
+
+🏗️   Building model...
+🏗️   Building model...
+
+Loading model....
+Loading model....
+Loading weights:   0%|          | 0/947 [00:00<?, ?it/s]Loading weights:   0%|          | 0/947 [00:00<?, ?it/s]Loading weights: 100%|##########| 947/947 [00:00<00:00, 18446.48it/s]Loading weights: 100%|##########| 947/947 [00:00<00:00, 18446.48it/s]
+
+Model loaded successfully!
+Model loaded successfully!
+
+✅ LoRA applied successfully!
+✅ LoRA applied successfully!
+
+trainable params: 2,359,296 || all params: 766,217,216 || trainable%: 0.3079
+trainable params: 2,359,296 || all params: 766,217,216 || trainable%: 0.3079
+
+❄️ Base model frozen (only LoRA layers will train)
+❄️ Base model frozen (only LoRA layers will train)
+
+[transformers] `logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.
+Traceback (most recent call last):
+Traceback (most recent call last):
+  File "/workspace/STT-FineTuning/scripts/train.py", line 251, in <module>
+  File "/workspace/STT-FineTuning/scripts/train.py", line 251, in <module>
+    main()
+    main()
+  File "/workspace/STT-FineTuning/scripts/train.py", line 215, in main
+  File "/workspace/STT-FineTuning/scripts/train.py", line 215, in main
+    trainer = get_trainer(
+    trainer = get_trainer(
+              ^^^^^^^^^^^^
+              ^^^^^^^^^^^^
+  File "/workspace/STT-FineTuning/src/trainer.py", line 84, in get_trainer
+  File "/workspace/STT-FineTuning/src/trainer.py", line 84, in get_trainer
+    trainer = Seq2SeqTrainer(
+    trainer = Seq2SeqTrainer(
+              ^^^^^^^^^^^^^^^
+  File "/workspace/STT-FineTuning/.venv/lib/python3.12/site-packages/transformers/trainer_seq2seq.py", line 74, in __init__
+              ^^^^^^^^^^^^^^^
+  File "/workspace/STT-FineTuning/.venv/lib/python3.12/site-packages/transformers/trainer_seq2seq.py", line 74, in __init__
+    super().__init__(
+    super().__init__(
+  File "/workspace/STT-FineTuning/.venv/lib/python3.12/site-packages/transformers/trainer.py", line 560, in __init__
+  File "/workspace/STT-FineTuning/.venv/lib/python3.12/site-packages/transformers/trainer.py", line 560, in __init__
+    self.callback_handler = CallbackHandler(
+    self.callback_handler = CallbackHandler(
+                            ^^^^^^^^^^^^^^^^
+                            ^^^^^^^^^^^^^^^^
+  File "/workspace/STT-FineTuning/.venv/lib/python3.12/site-packages/transformers/trainer_callback.py", line 435, in __init__
+  File "/workspace/STT-FineTuning/.venv/lib/python3.12/site-packages/transformers/trainer_callback.py", line 435, in __init__
+    self.add_callback(cb)
+    self.add_callback(cb)
+  File "/workspace/STT-FineTuning/.venv/lib/python3.12/site-packages/transformers/trainer_callback.py", line 452, in add_callback
+  File "/workspace/STT-FineTuning/.venv/lib/python3.12/site-packages/transformers/trainer_callback.py", line 452, in add_callback
+    cb = callback() if isinstance(callback, type) else callback
+    cb = callback() if isinstance(callback, type) else callback
+         ^^^^^^^^^^
+         ^^^^^^^^^^
+  File "/workspace/STT-FineTuning/.venv/lib/python3.12/site-packages/transformers/integrations/integration_utils.py", line 591, in __init__
+  File "/workspace/STT-FineTuning/.venv/lib/python3.12/site-packages/transformers/integrations/integration_utils.py", line 591, in __init__
+    raise RuntimeError(
+    raise RuntimeError(
+RuntimeError: TensorBoardCallback requires tensorboard to be installed. Either update your PyTorch version or install tensorboardX.
+RuntimeError: TensorBoardCallback requires tensorboard to be installed. Either update your PyTorch version or install tensorboardX.
+============================================================
+🧪  SMOKE TEST — Whisper Medium / LibriSpeech
+    16 train samples | 8 val samples | 1 epoch | batch=4
+    Sat Apr 25 09:01:32 UTC 2026
+============================================================
+NVIDIA H200 NVL, 143771 MiB
+Filesystem                   Size  Used Avail Use% Mounted on
+overlay                       20G  6.3G   14G  32% /
+mfs#us-md-1.runpod.net:9421  334T  258T   77T  78% /workspace
+
+📦  Syncing deps with uv...
+
+🚀  Launching smoke-test training...
+    Config : configs/config_test.yaml
+    Log    : /workspace/STT-FineTuning/test_output.log
+
+📝  All Python output mirrored to: /workspace/STT-FineTuning/test_output.log
+📝  All Python output mirrored to: /workspace/STT-FineTuning/test_output.log
+============================================================
+🚀  Whisper Medium Fine-tuning  (H200 / RunPod optimised)
+============================================================
+🚀  Whisper Medium Fine-tuning  (H200 / RunPod optimised)
+============================================================
+============================================================
+  GPU 0: NVIDIA H200 NVL  |  VRAM: 139.8 GB
+  GPU 0: NVIDIA H200 NVL  |  VRAM: 139.8 GB
+
+💾  Disk status:
+
+💾  Disk status:
+  Container disk (/): 6.8 GB used / 21.5 GB total (14.7 GB free)
+  Container disk (/): 6.8 GB used / 21.5 GB total (14.7 GB free)
+  Volume disk (/workspace): 282766.9 GB used / 366672.5 GB total (83905.7 GB free)
+
+📄  Loading config...  Volume disk (/workspace): 282766.9 GB used / 366672.5 GB total (83905.7 GB free)
+
+📄  Loading config...
+    Config : /workspace/STT-FineTuning/configs/config_test.yaml
+
+    Config : /workspace/STT-FineTuning/configs/config_test.yaml
+    Log    : /workspace/STT-FineTuning/test_output.log
+    Log    : /workspace/STT-FineTuning/test_output.log
+
+📦  Loading datasets...
+📦  Loading datasets...
+Loading 'librispeech_asr' (subset=clean) — train: 'train.360' (≤16), val: 'validation' (≤8)
+
+Loading 'librispeech_asr' (subset=clean) — train: 'train.360' (≤16), val: 'validation' (≤8)
+
+  ⬇ Train split (train.360):
+
+  ⬇ Train split (train.360):
+  📂 Loading from disk: /workspace/datasets/librispeech_clean/train
+  📂 Loading from disk: /workspace/datasets/librispeech_clean/train
+     Capping to 16 / 35,000 samples
+     Capping to 16 / 35,000 samples
+  ✅ Loaded 16 samples from disk
+  ✅ Loaded 16 samples from disk
+
+  ⬇ Val split (validation):
+
+  ⬇ Val split (validation):  📂 Loading from disk: /workspace/datasets/librispeech_clean/validation
+
+  📂 Loading from disk: /workspace/datasets/librispeech_clean/validation
+     Capping to 8 / 2,703 samples
+     Capping to 8 / 2,703 samples
+  ✅ Loaded 8 samples from disk
+  ✅ Loaded 8 samples from disk
+
+✅ Dataset ready — 16 train / 8 val
+✅ Dataset ready — 16 train / 8 val
+
+
+🏗️   Loading processor...
+
+🏗️   Loading processor...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+⚙️   Preprocessing datasets (num_proc=4, train=16, val=8)...
+⚙️   Preprocessing datasets (num_proc=4, train=16, val=8)...
+
+
+🏗️   Building model...
+🏗️   Building model...
+
+Loading model....
+Loading model....
+Loading weights:   0%|          | 0/947 [00:00<?, ?it/s]Loading weights:   0%|          | 0/947 [00:00<?, ?it/s]Loading weights:  12%|#1        | 109/947 [00:00<00:00, 1054.84it/s]Loading weights:  12%|#1        | 109/947 [00:00<00:00, 1054.84it/s]Loading weights:  32%|###2      | 306/947 [00:00<00:00, 1574.44it/s]Loading weights:  32%|###2      | 306/947 [00:00<00:00, 1574.44it/s]Loading weights:  51%|#####     | 481/947 [00:00<00:00, 1642.19it/s]Loading weights:  51%|#####     | 481/947 [00:00<00:00, 1642.19it/s]Loading weights:  74%|#######3  | 698/947 [00:00<00:00, 1840.57it/s]Loading weights:  74%|#######3  | 698/947 [00:00<00:00, 1840.57it/s]Loading weights: 100%|##########| 947/947 [00:00<00:00, 1935.59it/s]Loading weights: 100%|##########| 947/947 [00:00<00:00, 1935.59it/s]
+
+Model loaded successfully!
+Model loaded successfully!
+
+✅ LoRA applied successfully!
+✅ LoRA applied successfully!
+
+trainable params: 2,359,296 || all params: 766,217,216 || trainable%: 0.3079
+trainable params: 2,359,296 || all params: 766,217,216 || trainable%: 0.3079
+
+❄️ Base model frozen (only LoRA layers will train)
+❄️ Base model frozen (only LoRA layers will train)
+
+[transformers] `logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.
+
+📊  Train samples : 16
+📊  Train samples : 16
+📊  Val   samples : 8
+
+📊  Val   samples : 8
+
+🔥  Starting training...
+
+🔥  Starting training...
+2026-04-25 09:02:02,421 - INFO - 🚀 Training started...
+2026-04-25 09:02:02,421 - INFO - 🚀 Training started...
+  0%|          | 0/4 [00:00<?, ?it/s]  0%|          | 0/4 [00:00<?, ?it/s] 25%|##5       | 1/4 [00:03<00:09,  3.07s/it] 25%|##5       | 1/4 [00:03<00:09,  3.07s/it]                                                                                          {'loss': '1.111', 'grad_norm': '0', 'learning_rate': '0', 'epoch': '0.25'}
+{'loss': '1.111', 'grad_norm': '0', 'learning_rate': '0', 'epoch': '0.25'}
+ 25%|##5       | 1/4 [00:03<00:09,  3.07s/it] 25%|##5       | 1/4 [00:03<00:09,  3.07s/it] 50%|#####     | 2/4 [00:03<00:02,  1.46s/it] 50%|#####     | 2/4 [00:03<00:02,  1.46s/it]                                                                                          {'loss': '1.2', 'grad_norm': '0', 'learning_rate': '0.0001', 'epoch': '0.5'}
+{'loss': '1.2', 'grad_norm': '0', 'learning_rate': '0.0001', 'epoch': '0.5'}
+ 50%|#####     | 2/4 [00:03<00:02,  1.46s/it] 50%|#####     | 2/4 [00:03<00:02,  1.46s/it] 75%|#######5  | 3/4 [00:03<00:00,  1.06it/s] 75%|#######5  | 3/4 [00:03<00:00,  1.06it/s]                                                                                          {'loss': '1.179', 'grad_norm': '0', 'learning_rate': '6.667e-05', 'epoch': '0.75'}
+{'loss': '1.179', 'grad_norm': '0', 'learning_rate': '6.667e-05', 'epoch': '0.75'}
+ 75%|#######5  | 3/4 [00:03<00:00,  1.06it/s] 75%|#######5  | 3/4 [00:03<00:00,  1.06it/s]100%|##########| 4/4 [00:04<00:00,  1.39it/s]100%|##########| 4/4 [00:04<00:00,  1.39it/s]                                                                                          {'loss': '1.242', 'grad_norm': '0', 'learning_rate': '3.333e-05', 'epoch': '1'}
+{'loss': '1.242', 'grad_norm': '0', 'learning_rate': '3.333e-05', 'epoch': '1'}100%|##########| 4/4 [00:04<00:00,  1.39it/s]
+100%|##########| 4/4 [00:04<00:00,  1.39it/s][transformers] Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+[transformers] Transcription using a multilingual Whisper will default to language detection followed by transcription instead of translation to English. This might be a breaking change for your use case. If you want to instead always translate your audio to English, make sure to pass `language='en'`. See https://github.com/huggingface/transformers/pull/28687 for more details.
+[transformers] The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+[transformers] A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+[transformers] A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+============================================================
+🧪  SMOKE TEST — Whisper Medium / LibriSpeech
+    16 train samples | 8 val samples | 1 epoch | batch=4
+    Sat Apr 25 09:02:24 UTC 2026
+============================================================
+NVIDIA H200 NVL, 143771 MiB
+Filesystem                   Size  Used Avail Use% Mounted on
+overlay                       20G  6.4G   14G  32% /
+mfs#us-md-1.runpod.net:9421  334T  258T   77T  78% /workspace
+
+📦  Syncing deps with uv...
+
+🚀  Launching smoke-test training...
+    Config : configs/config_test.yaml
+    Log    : /workspace/STT-FineTuning/test_output.log
+
+📝  All Python output mirrored to: /workspace/STT-FineTuning/test_output.log
+📝  All Python output mirrored to: /workspace/STT-FineTuning/test_output.log
+============================================================
+🚀  Whisper Medium Fine-tuning  (H200 / RunPod optimised)
+============================================================
+🚀  Whisper Medium Fine-tuning  (H200 / RunPod optimised)
+============================================================
+============================================================
+  GPU 0: NVIDIA H200 NVL  |  VRAM: 139.8 GB
+  GPU 0: NVIDIA H200 NVL  |  VRAM: 139.8 GB
+
+💾  Disk status:
+
+💾  Disk status:
+  Container disk (/): 6.8 GB used / 21.5 GB total (14.7 GB free)
+  Container disk (/): 6.8 GB used / 21.5 GB total (14.7 GB free)
+  Volume disk (/workspace): 282759.0 GB used / 366672.5 GB total (83913.6 GB free)
+
+📄  Loading config...  Volume disk (/workspace): 282759.0 GB used / 366672.5 GB total (83913.6 GB free)
+
+📄  Loading config...
+
+    Config : /workspace/STT-FineTuning/configs/config_test.yaml
+    Log    : /workspace/STT-FineTuning/test_output.log
+    Config : /workspace/STT-FineTuning/configs/config_test.yaml
+    Log    : /workspace/STT-FineTuning/test_output.log
+
+📦  Loading datasets...
+📦  Loading datasets...
+
+Loading 'librispeech_asr' (subset=clean) — train: 'train.360' (≤16), val: 'validation' (≤8)
+Loading 'librispeech_asr' (subset=clean) — train: 'train.360' (≤16), val: 'validation' (≤8)
+
+  ⬇ Train split (train.360):
+  ⬇ Train split (train.360):
+
+  📂 Loading from disk: /workspace/datasets/librispeech_clean/train
+  📂 Loading from disk: /workspace/datasets/librispeech_clean/train
+     Capping to 16 / 35,000 samples
+     Capping to 16 / 35,000 samples
+  ✅ Loaded 16 samples from disk
+  ✅ Loaded 16 samples from disk
+
+  ⬇ Val split (validation):
+
+  ⬇ Val split (validation):
+  📂 Loading from disk: /workspace/datasets/librispeech_clean/validation
+  📂 Loading from disk: /workspace/datasets/librispeech_clean/validation
+     Capping to 8 / 2,703 samples
+     Capping to 8 / 2,703 samples
+  ✅ Loaded 8 samples from disk
+  ✅ Loaded 8 samples from disk
+
+✅ Dataset ready — 16 train / 8 val
+✅ Dataset ready — 16 train / 8 val
+
+
+🏗️   Loading processor...
+
+🏗️   Loading processor...
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+⚙️   Preprocessing datasets (num_proc=4, train=16, val=8)...
+⚙️   Preprocessing datasets (num_proc=4, train=16, val=8)...
+
+
+🏗️   Building model...
+🏗️   Building model...
+
+Loading model....
+Loading model....
+Loading weights:   0%|          | 0/947 [00:00<?, ?it/s]Loading weights:   0%|          | 0/947 [00:00<?, ?it/s]Loading weights: 100%|##########| 947/947 [00:00<00:00, 13900.19it/s]Loading weights: 100%|##########| 947/947 [00:00<00:00, 13900.19it/s]
+
+Model loaded successfully!
+Model loaded successfully!
+
+✅ LoRA applied successfully!
+✅ LoRA applied successfully!
+
+trainable params: 2,359,296 || all params: 766,217,216 || trainable%: 0.3079
+trainable params: 2,359,296 || all params: 766,217,216 || trainable%: 0.3079
+
+❄️ Base model frozen (only LoRA layers will train)
+❄️ Base model frozen (only LoRA layers will train)
+
+[transformers] `logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.
+
+📊  Train samples : 16
+📊  Train samples : 16
+📊  Val   samples : 8
+
+📊  Val   samples : 8
+
+🔥  Starting training...
+
+🔥  Starting training...2026-04-25 09:02:39,869 - INFO - 🚀 Training started...
+
+2026-04-25 09:02:39,869 - INFO - 🚀 Training started...
+  0%|          | 0/4 [00:00<?, ?it/s]  0%|          | 0/4 [00:00<?, ?it/s] 25%|##5       | 1/4 [00:01<00:03,  1.10s/it] 25%|##5       | 1/4 [00:01<00:03,  1.10s/it]                                                                                          {'loss': '1.111', 'grad_norm': '0', 'learning_rate': '0', 'epoch': '0.25'}
+{'loss': '1.111', 'grad_norm': '0', 'learning_rate': '0', 'epoch': '0.25'}
+ 25%|##5       | 1/4 [00:01<00:03,  1.10s/it] 25%|##5       | 1/4 [00:01<00:03,  1.10s/it] 50%|#####     | 2/4 [00:01<00:01,  1.54it/s] 50%|#####     | 2/4 [00:01<00:01,  1.54it/s]                                                                                          {'loss': '1.2', 'grad_norm': '0', 'learning_rate': '0.0001', 'epoch': '0.5'}
+{'loss': '1.2', 'grad_norm': '0', 'learning_rate': '0.0001', 'epoch': '0.5'}
+ 50%|#####     | 2/4 [00:01<00:01,  1.54it/s] 50%|#####     | 2/4 [00:01<00:01,  1.54it/s] 75%|#######5  | 3/4 [00:01<00:00,  1.99it/s] 75%|#######5  | 3/4 [00:01<00:00,  1.99it/s]                                                                                          {'loss': '1.179', 'grad_norm': '0', 'learning_rate': '6.667e-05', 'epoch': '0.75'}
+{'loss': '1.179', 'grad_norm': '0', 'learning_rate': '6.667e-05', 'epoch': '0.75'}
+ 75%|#######5  | 3/4 [00:01<00:00,  1.99it/s] 75%|#######5  | 3/4 [00:01<00:00,  1.99it/s]100%|##########| 4/4 [00:02<00:00,  2.25it/s]100%|##########| 4/4 [00:02<00:00,  2.25it/s]                                                                                          {'loss': '1.242', 'grad_norm': '0', 'learning_rate': '3.333e-05', 'epoch': '1'}
+{'loss': '1.242', 'grad_norm': '0', 'learning_rate': '3.333e-05', 'epoch': '1'}
+100%|##########| 4/4 [00:02<00:00,  2.25it/s]100%|##########| 4/4 [00:02<00:00,  2.25it/s][transformers] Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+[transformers] Transcription using a multilingual Whisper will default to language detection followed by transcription instead of translation to English. This might be a breaking change for your use case. If you want to instead always translate your audio to English, make sure to pass `language='en'`. See https://github.com/huggingface/transformers/pull/28687 for more details.
+[transformers] The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+[transformers] A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+[transformers] A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+
+  0%|          | 0/2 [00:00<?, ?it/s]  0%|          | 0/2 [00:00<?, ?it/s][A[A
+
+100%|##########| 2/2 [00:00<00:00,  2.77it/s]100%|##########| 2/2 [00:00<00:00,  2.77it/s][A[A                                                                                          
+
+                                                                                          [A[A{'eval_loss': '2.274', 'eval_wer': '1', 'eval_runtime': '2.324', 'eval_samples_per_second': '3.442', 'eval_steps_per_second': '0.86', 'epoch': '1'}{'eval_loss': '2.274', 'eval_wer': '1', 'eval_runtime': '2.324', 'eval_samples_per_second': '3.442', 'eval_steps_per_second': '0.86', 'epoch': '1'}
+
+100%|##########| 4/4 [00:04<00:00,  2.25it/s]
+100%|##########| 4/4 [00:04<00:00,  2.25it/s]100%|##########| 2/2 [00:00<00:00,  2.77it/s][A
+100%|##########| 2/2 [00:00<00:00,  2.77it/s][A
+                                             
+[A                                             [A                                                                                          {'train_runtime': '4.704', 'train_samples_per_second': '3.401', 'train_steps_per_second': '0.85', 'train_loss': '1.183', 'epoch': '1'}
+{'train_runtime': '4.704', 'train_samples_per_second': '3.401', 'train_steps_per_second': '0.85', 'train_loss': '1.183', 'epoch': '1'}
+100%|##########| 4/4 [00:04<00:00,  2.25it/s]100%|##########| 4/4 [00:04<00:00,  2.25it/s]100%|##########| 4/4 [00:04<00:00,  1.19s/it]100%|##########| 4/4 [00:04<00:00,  1.19s/it]
+
+2026-04-25 09:02:44,871 - INFO - ⏱️ Total Training Time: 0h 0m 5s
+2026-04-25 09:02:44,871 - INFO - ⏱️ Total Training Time: 0h 0m 5s
+
+💾  Saving model to /workspace/whisper-smoke-test/outputs...
+
+💾  Saving model to /workspace/whisper-smoke-test/outputs...
+✅  Done!
+✅  Done!
+
+💾  Final disk status:
+
+💾  Final disk status:
+  Container disk (/): 6.8 GB used / 21.5 GB total (14.7 GB free)
+  Container disk (/): 6.8 GB used / 21.5 GB total (14.7 GB free)
+  Volume disk (/workspace): 282757.5 GB used / 366672.5 GB total (83915.0 GB free)
+  Volume disk (/workspace): 282757.5 GB used / 366672.5 GB total (83915.0 GB free)
+
+✅  Smoke test PASSED — pipeline is correct!
+    All stages completed: data load → model build →
+    preprocessing → training → eval → save
+
+📝  Shell log: /workspace/whisper-smoke-test/logs/smoke_test_20260425_090224.log
+    Python will also self-log to: /workspace/STT-FineTuning/test_output.log
+
+============================================================
+🧪  SMOKE TEST — Whisper Medium / LibriSpeech
+    16 train samples | 8 val samples | 1 epoch | batch=4
+    Sat Apr 25 09:16:38 UTC 2026
+============================================================
+NVIDIA H200 NVL, 143771 MiB
+Filesystem                   Size  Used Avail Use% Mounted on
+overlay                       20G  6.4G   14G  32% /
+mfs#us-md-1.runpod.net:9421  334T  258T   77T  78% /workspace
+
+📦  Syncing deps with uv...
+
+🚀  Launching smoke-test training...
+    Config : configs/config_test.yaml
+    Log    : /workspace/STT-FineTuning/test_output.log
+
+============================================================
+🧪  SMOKE TEST — Whisper Medium / LibriSpeech
+    16 train samples | 8 val samples | 1 epoch | batch=4
+    Sat Apr 25 09:18:33 UTC 2026
+============================================================
+NVIDIA H200 NVL, 143771 MiB
+Filesystem                   Size  Used Avail Use% Mounted on
+overlay                       20G  6.4G   14G  32% /
+mfs#us-md-1.runpod.net:9421  334T  258T   77T  78% /workspace
+
+📦  Syncing deps with uv...
+
+🚀  Launching smoke-test training...
+    Config : configs/config_test.yaml
+    Log    : /workspace/STT-FineTuning/test_output.log
+
+📝  All Python output mirrored to: /workspace/STT-FineTuning/test_output.log
+📝  All Python output mirrored to: /workspace/STT-FineTuning/test_output.log
+============================================================
+🚀  Whisper Medium Fine-tuning  (H200 / RunPod optimised)
+============================================================
+============================================================
+🚀  Whisper Medium Fine-tuning  (H200 / RunPod optimised)
+============================================================
+  GPU 0: NVIDIA H200 NVL  |  VRAM: 139.8 GB
+  GPU 0: NVIDIA H200 NVL  |  VRAM: 139.8 GB
+
+💾  Disk status:
+
+💾  Disk status:
+  Container disk (/): 6.8 GB used / 21.5 GB total (14.7 GB free)
+  Container disk (/): 6.8 GB used / 21.5 GB total (14.7 GB free)
+  Volume disk (/workspace): 282809.4 GB used / 366672.5 GB total (83863.1 GB free)
+
+📄  Loading config...  Volume disk (/workspace): 282809.4 GB used / 366672.5 GB total (83863.1 GB free)
+
+📄  Loading config...
+
+    Config : /workspace/STT-FineTuning/configs/config_test.yaml
+    Log    : /workspace/STT-FineTuning/test_output.log
+    Config : /workspace/STT-FineTuning/configs/config_test.yaml
+    Log    : /workspace/STT-FineTuning/test_output.log
+
+📦  Loading datasets...
+📦  Loading datasets...
+
+Loading 'librispeech_asr' (subset=clean) — train: 'train.360' (≤16), val: 'validation' (≤8)
+
+  ⬇ Train split (train.360):Loading 'librispeech_asr' (subset=clean) — train: 'train.360' (≤16), val: 'validation' (≤8)
+
+  ⬇ Train split (train.360):
+
+  📂 Loading from disk: /workspace/datasets/librispeech_clean/train
+  📂 Loading from disk: /workspace/datasets/librispeech_clean/train
+     Capping to 16 / 35,000 samples
+     Capping to 16 / 35,000 samples
+  ✅ Loaded 16 samples from disk  ✅ Loaded 16 samples from disk
+
+
+  ⬇ Val split (validation):
+  ⬇ Val split (validation):
+
+  📂 Loading from disk: /workspace/datasets/librispeech_clean/validation
+  📂 Loading from disk: /workspace/datasets/librispeech_clean/validation
+     Capping to 8 / 2,703 samples
+     Capping to 8 / 2,703 samples
+  ✅ Loaded 8 samples from disk
+  ✅ Loaded 8 samples from disk
+
+✅ Dataset ready — 16 train / 8 val
+
+✅ Dataset ready — 16 train / 8 val
+🏗️   Loading processor...
+
+🏗️   Loading processor...
+
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+
+⚙️   Preprocessing datasets (num_proc=4, train=16, val=8)...
+⚙️   Preprocessing datasets (num_proc=4, train=16, val=8)...
+
+
+🏗️   Building model...
+🏗️   Building model...
+
+Loading model....
+Loading model....
+Loading weights:   0%|          | 0/947 [00:00<?, ?it/s]Loading weights:   0%|          | 0/947 [00:00<?, ?it/s]Loading weights:  21%|##1       | 202/947 [00:00<00:00, 2012.57it/s]Loading weights:  21%|##1       | 202/947 [00:00<00:00, 2012.57it/s]Loading weights:  43%|####2     | 404/947 [00:00<00:00, 1777.08it/s]Loading weights:  43%|####2     | 404/947 [00:00<00:00, 1777.08it/s]Loading weights:  67%|######6   | 630/947 [00:00<00:00, 1978.28it/s]Loading weights:  67%|######6   | 630/947 [00:00<00:00, 1978.28it/s]Loading weights:  88%|########7 | 831/947 [00:00<00:00, 1974.08it/s]Loading weights:  88%|########7 | 831/947 [00:00<00:00, 1974.08it/s]Loading weights: 100%|##########| 947/947 [00:00<00:00, 2024.13it/s]Loading weights: 100%|##########| 947/947 [00:00<00:00, 2024.13it/s]
+
+Model loaded successfully!
+Model loaded successfully!
+
+✅ LoRA applied successfully!
+✅ LoRA applied successfully!
+
+trainable params: 2,359,296 || all params: 766,217,216 || trainable%: 0.3079
+trainable params: 2,359,296 || all params: 766,217,216 || trainable%: 0.3079
+
+❄️ Base model frozen (only LoRA layers will train)
+❄️ Base model frozen (only LoRA layers will train)
+
+[transformers] `logging_dir` is deprecated and will be removed in v5.2. Please set `TENSORBOARD_LOGGING_DIR` instead.
+
+📊  Train samples : 16
+📊  Train samples : 16
+📊  Val   samples : 8
+
+📊  Val   samples : 8
+
+🔥  Starting training...
+
+🔥  Starting training...
+2026-04-25 09:25:30,291 - INFO - 🚀 Training started...
+2026-04-25 09:25:30,291 - INFO - 🚀 Training started...
+  0%|          | 0/4 [00:00<?, ?it/s]  0%|          | 0/4 [00:00<?, ?it/s] 25%|##5       | 1/4 [00:02<00:06,  2.08s/it] 25%|##5       | 1/4 [00:02<00:06,  2.08s/it]                                                                                          {'loss': '1.111', 'grad_norm': '0', 'learning_rate': '0', 'epoch': '0.25'}
+{'loss': '1.111', 'grad_norm': '0', 'learning_rate': '0', 'epoch': '0.25'}
+ 25%|##5       | 1/4 [00:02<00:06,  2.08s/it] 25%|##5       | 1/4 [00:02<00:06,  2.08s/it] 50%|#####     | 2/4 [00:02<00:02,  1.05s/it] 50%|#####     | 2/4 [00:02<00:02,  1.05s/it]                                                                                          {'loss': '1.2', 'grad_norm': '0', 'learning_rate': '0.0001', 'epoch': '0.5'}
+{'loss': '1.2', 'grad_norm': '0', 'learning_rate': '0.0001', 'epoch': '0.5'}
+ 50%|#####     | 2/4 [00:02<00:02,  1.05s/it] 50%|#####     | 2/4 [00:02<00:02,  1.05s/it] 75%|#######5  | 3/4 [00:02<00:00,  1.39it/s] 75%|#######5  | 3/4 [00:02<00:00,  1.39it/s]                                                                                          {'loss': '1.179', 'grad_norm': '0', 'learning_rate': '6.667e-05', 'epoch': '0.75'}
+{'loss': '1.179', 'grad_norm': '0', 'learning_rate': '6.667e-05', 'epoch': '0.75'}
+ 75%|#######5  | 3/4 [00:02<00:00,  1.39it/s] 75%|#######5  | 3/4 [00:02<00:00,  1.39it/s]100%|##########| 4/4 [00:03<00:00,  1.77it/s]100%|##########| 4/4 [00:03<00:00,  1.77it/s]                                                                                          {'loss': '1.242', 'grad_norm': '0', 'learning_rate': '3.333e-05', 'epoch': '1'}
+{'loss': '1.242', 'grad_norm': '0', 'learning_rate': '3.333e-05', 'epoch': '1'}
+100%|##########| 4/4 [00:03<00:00,  1.77it/s]100%|##########| 4/4 [00:03<00:00,  1.77it/s][transformers] Using custom `forced_decoder_ids` from the (generation) config. This is deprecated in favor of the `task` and `language` flags/config options.
+[transformers] Transcription using a multilingual Whisper will default to language detection followed by transcription instead of translation to English. This might be a breaking change for your use case. If you want to instead always translate your audio to English, make sure to pass `language='en'`. See https://github.com/huggingface/transformers/pull/28687 for more details.
+[transformers] The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+[transformers] A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+[transformers] A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+
+
+  0%|          | 0/2 [00:00<?, ?it/s]  0%|          | 0/2 [00:00<?, ?it/s][A[A
+
+100%|##########| 2/2 [00:00<00:00,  2.80it/s][A100%|##########| 2/2 [00:00<00:00,  2.80it/s][A                                                                                          
+
+                                                                                          [A[A{'eval_loss': '2.274', 'eval_wer': '1', 'eval_runtime': '2.112', 'eval_samples_per_second': '3.788', 'eval_steps_per_second': '0.947', 'epoch': '1'}
+{'eval_loss': '2.274', 'eval_wer': '1', 'eval_runtime': '2.112', 'eval_samples_per_second': '3.788', 'eval_steps_per_second': '0.947', 'epoch': '1'}
+100%|##########| 4/4 [00:05<00:00,  1.77it/s]
+100%|##########| 4/4 [00:05<00:00,  1.77it/s]
+100%|##########| 2/2 [00:00<00:00,  2.80it/s][A100%|##########| 2/2 [00:00<00:00,  2.80it/s][A
+                                             
+                                             [A[A                                                                                          {'train_runtime': '5.39', 'train_samples_per_second': '2.969', 'train_steps_per_second': '0.742', 'train_loss': '1.183', 'epoch': '1'}
+{'train_runtime': '5.39', 'train_samples_per_second': '2.969', 'train_steps_per_second': '0.742', 'train_loss': '1.183', 'epoch': '1'}
+100%|##########| 4/4 [00:05<00:00,  1.77it/s]100%|##########| 4/4 [00:05<00:00,  1.77it/s]100%|##########| 4/4 [00:05<00:00,  1.38s/it]100%|##########| 4/4 [00:05<00:00,  1.38s/it]
+
+2026-04-25 09:25:36,043 - INFO - ⏱️ Total Training Time: 0h 0m 5s
+2026-04-25 09:25:36,043 - INFO - ⏱️ Total Training Time: 0h 0m 5s
+
+💾  Saving LoRA adapter to /workspace/whisper-smoke-test/outputs...
+
+💾  Saving LoRA adapter to /workspace/whisper-smoke-test/outputs...
+✅  Adapter saved!
+✅  Adapter saved!
+
+🔀  Merging adapter into base model → /workspace/whisper-smoke-test/outputs_merged
+
+🔀  Merging adapter into base model → /workspace/whisper-smoke-test/outputs_merged
+
+============================================================
+============================================================
+
+🔀  Merging LoRA adapter into base model
+============================================================
+🔀  Merging LoRA adapter into base model
+============================================================
+  Base model   : openai/whisper-medium
+  Base model   : openai/whisper-medium
+  Adapter dir  : /workspace/whisper-smoke-test/outputs
+  Adapter dir  : /workspace/whisper-smoke-test/outputs
+  Output dir   : /workspace/whisper-smoke-test/outputs_merged
+  Output dir   : /workspace/whisper-smoke-test/outputs_merged
+
+
+📥  Loading base model...
+📥  Loading base model...
+Loading weights:   0%|          | 0/947 [00:00<?, ?it/s]Loading weights:   0%|          | 0/947 [00:00<?, ?it/s]Loading weights: 100%|##########| 947/947 [00:00<00:00, 13741.54it/s]Loading weights: 100%|##########| 947/947 [00:00<00:00, 13741.54it/s]
+
+📎  Loading LoRA adapter...
+📎  Loading LoRA adapter...
+🔀  Merging and unloading adapter...
+🔀  Merging and unloading adapter...
+💾  Saving merged model to /workspace/whisper-smoke-test/outputs_merged ...
+💾  Saving merged model to /workspace/whisper-smoke-test/outputs_merged ...
+Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards:   0%|          | 0/1 [00:00<?, ?it/s]Writing model shards: 100%|##########| 1/1 [00:05<00:00,  5.05s/it]Writing model shards: 100%|##########| 1/1 [00:05<00:00,  5.05s/it]Writing model shards: 100%|##########| 1/1 [00:05<00:00,  5.06s/it]
+Writing model shards: 100%|##########| 1/1 [00:05<00:00,  5.06s/it]
+💾  Saving processor...
+💾  Saving processor...
+
+
+✅  Done!  Merged model saved to: /workspace/whisper-smoke-test/outputs_merged
+   Total size on disk: 3.06 GB
+
+✅  Done!  Merged model saved to: /workspace/whisper-smoke-test/outputs_merged
+   Total size on disk: 3.06 GB
+💡  Load for inference (no PEFT required):
+
+💡  Load for inference (no PEFT required):
+    from transformers import WhisperForConditionalGeneration, WhisperProcessor
+    model     = WhisperForConditionalGeneration.from_pretrained('/workspace/whisper-smoke-test/outputs_merged')
+    from transformers import WhisperForConditionalGeneration, WhisperProcessor
+    processor = WhisperProcessor.from_pretrained('/workspace/whisper-smoke-test/outputs_merged')
+    model     = WhisperForConditionalGeneration.from_pretrained('/workspace/whisper-smoke-test/outputs_merged')
+    processor = WhisperProcessor.from_pretrained('/workspace/whisper-smoke-test/outputs_merged')
+✅  Merged model ready at: /workspace/whisper-smoke-test/outputs_merged
+✅  Merged model ready at: /workspace/whisper-smoke-test/outputs_merged
+
+💾  Final disk status:
+
+💾  Final disk status:
+  Container disk (/): 6.8 GB used / 21.5 GB total (14.7 GB free)
+  Container disk (/): 6.8 GB used / 21.5 GB total (14.7 GB free)
+  Volume disk (/workspace): 282813.8 GB used / 366672.5 GB total (83858.7 GB free)
+  Volume disk (/workspace): 282813.8 GB used / 366672.5 GB total (83858.7 GB free)
+
+✅  Smoke test PASSED — pipeline is correct!
+    All stages completed: data load → model build →
+    preprocessing → training → eval → save
+
+📝  Shell log: /workspace/whisper-smoke-test/logs/smoke_test_20260425_091833.log
+    Python will also self-log to: /workspace/STT-FineTuning/test_output.log
+
