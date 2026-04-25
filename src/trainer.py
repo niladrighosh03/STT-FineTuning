@@ -36,7 +36,9 @@ def get_trainer(config, model, processor, train_dataset, val_dataset, data_colla
 
     import time
 
-    log_file = f"output_{int(time.time())}.log"
+    log_dir = "/workspace/whisper-medium-librispeech/logs"
+    import os; os.makedirs(log_dir, exist_ok=True)
+    log_file = os.path.join(log_dir, f"output_{int(time.time())}.log")
     logger = setup_logger(log_file)
 
     args = Seq2SeqTrainingArguments(
@@ -51,16 +53,32 @@ def get_trainer(config, model, processor, train_dataset, val_dataset, data_colla
         warmup_steps=config["training"]["warmup_steps"],
 
         logging_steps=config["training"]["logging_steps"],
-        evaluation_strategy="steps",
+        # ✅ Fixed: evaluation_strategy is deprecated → use eval_strategy
+        eval_strategy="steps",
         eval_steps=config["training"]["eval_steps"],
+        save_strategy="steps",
         save_steps=config["training"]["save_steps"],
+        save_total_limit=config["training"].get("save_total_limit", 3),
+
+        # Load best checkpoint at end of training
+        load_best_model_at_end=True,
+        metric_for_best_model="wer",
+        greater_is_better=False,
 
         predict_with_generate=True,
+        generation_max_length=225,
 
-        # 🔥 Precision (H200 optimized)
+        # 🔥 Precision (H200 supports bfloat16 natively)
         bf16=config.get("bf16", True),
         fp16=config.get("fp16", False),
-        report_to="tensorboard",    
+
+        # ⚡ H200 data loading — use multiple workers to keep GPU fed
+        dataloader_num_workers=config["training"].get("dataloader_num_workers", 4),
+        dataloader_pin_memory=True,
+
+        # Logging / reporting
+        report_to="tensorboard",
+        logging_dir=config["training"].get("logging_dir", "./logs"),
     )
 
     trainer = Seq2SeqTrainer(
@@ -68,7 +86,7 @@ def get_trainer(config, model, processor, train_dataset, val_dataset, data_colla
         args=args,
         train_dataset=train_dataset,
         eval_dataset=val_dataset,
-        tokenizer=processor.feature_extractor,
+        processing_class=processor.feature_extractor,
         data_collator=data_collator,
         compute_metrics=lambda p: compute_metrics(p, processor),
     )

@@ -1,0 +1,55 @@
+nohup: ignoring input
+Downloading builder script: 0.00B [00:00, ?B/s]Downloading builder script: 5.13kB [00:00, 16.0MB/s]
+============================================================
+🚀  Whisper Medium Fine-tuning  (H200 optimised)
+============================================================
+  GPU 0: NVIDIA H200 NVL  |  VRAM: 139.8 GB
+
+📄  Loading config...
+
+📦  Loading datasets...
+Loading 'librispeech_asr' (subset=clean) — train_split=train.360 (up to 10,000 samples), val_split=validation (up to 1,000 samples)...
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'librispeech_asr' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'librispeech_asr' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+  Streaming 10,000 train samples...
+Traceback (most recent call last):
+  File "/workspace/STT-FineTuning/scripts/train.py", line 112, in <module>
+    main()
+  File "/workspace/STT-FineTuning/scripts/train.py", line 42, in main
+    train_dataset, val_dataset = load_data(config)
+                                 ^^^^^^^^^^^^^^^^^
+  File "/workspace/STT-FineTuning/src/dataset.py", line 134, in load_data
+    for ex in train_stream:
+              ^^^^^^^^^^^^
+  File "/workspace/STT-FineTuning/.venv/lib/python3.12/site-packages/datasets/iterable_dataset.py", line 2690, in __iter__
+    for key, example in ex_iterable:
+                        ^^^^^^^^^^^
+  File "/workspace/STT-FineTuning/.venv/lib/python3.12/site-packages/datasets/iterable_dataset.py", line 2228, in __iter__
+    batch = formatter.format_batch(pa_table)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/STT-FineTuning/.venv/lib/python3.12/site-packages/datasets/formatting/formatting.py", line 472, in format_batch
+    batch = self.python_features_decoder.decode_batch(batch)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/STT-FineTuning/.venv/lib/python3.12/site-packages/datasets/formatting/formatting.py", line 234, in decode_batch
+    return self.features.decode_batch(batch, token_per_repo_id=self.token_per_repo_id) if self.features else batch
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/STT-FineTuning/.venv/lib/python3.12/site-packages/datasets/features/features.py", line 2254, in decode_batch
+    decode_nested_example(self[column_name], value, token_per_repo_id=token_per_repo_id)
+  File "/workspace/STT-FineTuning/.venv/lib/python3.12/site-packages/datasets/features/features.py", line 1508, in decode_nested_example
+    return schema.decode_example(obj, token_per_repo_id=token_per_repo_id) if obj is not None else None
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/STT-FineTuning/.venv/lib/python3.12/site-packages/datasets/features/audio.py", line 186, in decode_example
+    raise ImportError("To support decoding audio data, please install 'torchcodec'.")
+ImportError: To support decoding audio data, please install 'torchcodec'.
+Fatal Python error: PyGILState_Release: thread state 0x7ee9b4003c70 must be current when releasing
+Python runtime state: finalizing (tstate=0x00000000015a5808)
+
+Thread 0x00007eed7f16b740 (most recent call first):
+  <no Python frame>
+
+Extension modules: numpy._core._multiarray_umath, numpy.linalg._umath_linalg, torch._C, torch._C._dynamo.autograd_compiler, torch._C._dynamo.eval_frame, torch._C._dynamo.guards, torch._C._dynamo.utils, torch._C._fft, torch._C._linalg, torch._C._nested, torch._C._nn, torch._C._sparse, torch._C._special, yaml._yaml, pyarrow.lib, numpy.random._common, numpy.random.bit_generator, numpy.random._bounded_integers, numpy.random._pcg64, numpy.random._generator, numpy.random._mt19937, numpy.random._philox, numpy.random._sfc64, numpy.random.mtrand, _cyutility, pandas._libs._cyutility, pandas._libs.tslibs.ccalendar, pandas._libs.tslibs.np_datetime, pandas._libs.tslibs.dtypes, pandas._libs.tslibs.base, pandas._libs.tslibs.nattype, pandas._libs.tslibs.timezones, pandas._libs.properties, pandas._libs.tslibs.fields, pandas._libs.tslibs.timedeltas, pandas._libs.tslibs.tzconversion, pandas._libs.tslibs.timestamps, pandas._libs.tslibs.offsets, pandas._libs.tslibs.strptime, pandas._libs.tslibs.parsing, pandas._libs.tslibs.conversion, pandas._libs.tslibs.period, pandas._libs.tslibs.vectorized, pandas._libs.ops_dispatch, pandas._libs.missing, pandas._libs.hashtable, pandas._libs.algos, pandas._libs.interval, pandas._libs.lib, pyarrow._compute, pandas._libs.ops, pandas._libs.hashing, pandas._libs.arrays, pandas._libs.tslib, pandas._libs.sparse, pandas._libs.internals, pandas._libs.indexing, pandas._libs.index, pandas._libs.writers, pandas._libs.join, pandas._libs.window.aggregations, pandas._libs.window.indexers, pandas._libs.reshape, pandas._libs.groupby, pandas._libs.json, pandas._libs.parsers, pandas._libs.testing, pyarrow._acero, pyarrow._fs, pyarrow._csv, pyarrow._json, pyarrow._substrait, pyarrow._dataset, pyarrow._dataset_orc, pyarrow._parquet, pyarrow._azurefs, pyarrow._hdfs, pyarrow._gcsfs, pyarrow._s3fs, pyarrow._parquet_encryption, pyarrow._dataset_parquet_encryption, pyarrow._dataset_parquet, charset_normalizer.md, charset_normalizer.cd, requests.packages.charset_normalizer.md, requests.packages.chardet.md, requests.packages.charset_normalizer.cd, requests.packages.chardet.cd, multidict._multidict, yarl._quoting_c, propcache._helpers_c, aiohttp._http_writer, aiohttp._http_parser, aiohttp._websocket.mask, aiohttp._websocket.reader_c, frozenlist._frozenlist, xxhash._xxhash, regex._regex, markupsafe._speedups, psutil._psutil_linux, _cffi_backend, rapidfuzz._feature_detector_cpp, rapidfuzz.distance._initialize_cpp, rapidfuzz.distance.metrics_cpp_avx2, rapidfuzz.fuzz_cpp_avx2, rapidfuzz.process_cpp_impl, rapidfuzz.utils_cpp (total: 107)
