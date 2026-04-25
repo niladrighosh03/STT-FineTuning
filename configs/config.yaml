@@ -24,7 +24,7 @@ dataset:
   # Materialise this many examples from the streaming dataset.
   # train.360 has ~104k samples; 28k gives good coverage without OOM.
   # Increase to 104000 to use all of train.360 (needs more time to stream).
-  max_train_samples: 28000
+  max_train_samples: 20000  # Matches what download_dataset.py saved to disk
   max_val_samples: 2760     # Full validation.clean set
 
 training:

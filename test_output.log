@@ -673,3 +673,19 @@ trainable params: 2,359,296 || all params: 766,217,216 || trainable%: 0.3079
 📝  Shell log: /workspace/whisper-smoke-test/logs/smoke_test_20260425_091833.log
     Python will also self-log to: /workspace/STT-FineTuning/test_output.log
 
+============================================================
+🧪  SMOKE TEST — Whisper Medium / LibriSpeech
+    16 train samples | 8 val samples | 1 epoch | batch=4
+    Sat Apr 25 09:31:18 UTC 2026
+============================================================
+NVIDIA H200 NVL, 143771 MiB
+Filesystem                   Size  Used Avail Use% Mounted on
+overlay                       20G  6.4G   14G  32% /
+mfs#us-md-1.runpod.net:9421  334T  258T   77T  78% /workspace
+
+📦  Syncing deps with uv...
+
+🚀  Launching smoke-test training...
+    Config : configs/config_test.yaml
+    Log    : /workspace/STT-FineTuning/test_output.log
+
