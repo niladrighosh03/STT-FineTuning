@@ -65,7 +65,7 @@ fi
 echo "uv version: $(uv --version)"
 
 # Sync the project's locked deps from uv.lock into the .venv
-uv sync --quiet
+uv sync 
 
 # torchcodec is NOT required — we use torchaudio/soundfile instead.
 # soundfile is already in pyproject.toml; this is a safety-net.
