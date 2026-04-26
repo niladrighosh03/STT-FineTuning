@@ -1,0 +1,27 @@
+`trust_remote_code` is not supported anymore.
+Please check that the Hugging Face dataset 'librispeech_asr' isn't based on a loading script and remove `trust_remote_code`.
+If the dataset is based on a loading script, please ask the dataset author to remove it and convert it to a standard format like Parquet.
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Evaluation config
+Model path       : /workspace/whisper-medium-librispeech/outputs_merged
+Dataset          : librispeech_asr/clean
+Split            : test
+Max samples      : 200
+Batch size       : 8
+Device           : cuda
+Loading HuggingFace dataset: librispeech_asr, subset=clean, split=test
+Loading Whisper model: /workspace/whisper-medium-librispeech/outputs_merged
+Loading weights:   0%|          | 0/947 [00:00<?, ?it/s]Loading weights:  54%|█████▍    | 511/947 [00:00<00:00, 5098.30it/s]Loading weights: 100%|██████████| 947/947 [00:00<00:00, 3383.17it/s]
+Evaluating:   0%|          | 0/200 [00:00<?, ?sample/s][transformers] The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+[transformers] A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensLogitsProcessor'> to see related `.generate()` flags.
+[transformers] A custom logits processor of type <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> has been passed to `.generate()`, but it was also created in `.generate()`, given its parameterization. The custom <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> will take precedence. Please check the docstring of <class 'transformers.generation.logits_process.SuppressTokensAtBeginLogitsProcessor'> to see related `.generate()` flags.
+Evaluating:   0%|          | 1/200 [00:03<12:59,  3.92s/sample]Evaluating:   4%|▍         | 9/200 [00:04<01:10,  2.70sample/s]Evaluating:   8%|▊         | 17/200 [00:04<00:35,  5.17sample/s]Evaluating:  12%|█▎        | 25/200 [00:05<00:21,  8.03sample/s]Evaluating:  16%|█▋        | 33/200 [00:05<00:15, 10.56sample/s]Evaluating:  20%|██        | 41/200 [00:05<00:11, 13.29sample/s]Evaluating:  24%|██▍       | 49/200 [00:06<00:10, 14.05sample/s]Evaluating:  28%|██▊       | 57/200 [00:06<00:09, 15.49sample/s]Evaluating:  32%|███▎      | 65/200 [00:07<00:07, 17.57sample/s]Evaluating:  36%|███▋      | 73/200 [00:07<00:07, 17.48sample/s]Evaluating:  40%|████      | 81/200 [00:08<00:07, 14.91sample/s]Evaluating:  44%|████▍     | 89/200 [00:08<00:06, 16.04sample/s]Evaluating:  48%|████▊     | 97/200 [00:09<00:06, 17.09sample/s]Evaluating:  52%|█████▎    | 105/200 [00:09<00:05, 16.27sample/s]Evaluating:  56%|█████▋    | 113/200 [00:10<00:05, 15.45sample/s]Evaluating:  60%|██████    | 121/200 [00:10<00:04, 16.19sample/s]Evaluating:  64%|██████▍   | 129/200 [00:11<00:04, 16.30sample/s]Evaluating:  68%|██████▊   | 137/200 [00:12<00:04, 12.77sample/s]Evaluating:  72%|███████▎  | 145/200 [00:12<00:03, 14.69sample/s]Evaluating:  76%|███████▋  | 153/200 [00:13<00:03, 14.56sample/s]Evaluating:  80%|████████  | 161/200 [00:13<00:02, 13.70sample/s]Evaluating:  84%|████████▍ | 169/200 [00:14<00:02, 10.76sample/s]Evaluating:  88%|████████▊ | 177/200 [00:15<00:01, 11.82sample/s]Evaluating:  92%|█████████▎| 185/200 [00:15<00:01, 14.06sample/s]Evaluating:  96%|█████████▋| 193/200 [00:15<00:00, 16.09sample/s]Evaluating: 100%|██████████| 200/200 [00:15<00:00, 12.52sample/s]
+
+Evaluation complete
+Samples          : 200
+WER              : 2.88%
+CER              : 0.97%
+Per-sample WER   : 3.08%
+Per-sample CER   : 1.10%
+Per-sample CSV   : /workspace/STT-FineTuning/evaluation/results/librispeech_clean_test_wer_cer.csv
+Summary JSON     : /workspace/STT-FineTuning/evaluation/results/librispeech_clean_test_wer_cer_summary.json
