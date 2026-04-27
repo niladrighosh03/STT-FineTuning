@@ -1,0 +1,16 @@
+{
+  "model_path": "openai/whisper-medium",
+  "base_model": "openai/whisper-medium",
+  "dataset_name": "librispeech_asr",
+  "subset": "other",
+  "split": "test",
+  "num_samples": 20,
+  "text_normalized": true,
+  "wer": 0.03787878787878788,
+  "cer": 0.013817809621289662,
+  "wer_percent": 3.787878787878788,
+  "cer_percent": 1.3817809621289663,
+  "per_sample_mean_wer": 0.053388753758318974,
+  "per_sample_mean_cer": 0.021837911030934288,
+  "csv_path": "/workspace/STT-FineTuning/evaluation/results/librispeech_other_test_base_wer_cer.csv"
+}

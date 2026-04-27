@@ -11,6 +11,7 @@ sample count, model path, or output folder.
 
 from __future__ import annotations
 
+import argparse
 import csv
 import json
 import os
@@ -75,25 +76,36 @@ LOCAL_SPLIT_FOLDER = {
 }
 
 
-def get_config() -> SimpleNamespace:
-    return SimpleNamespace(
-        model_path=MODEL_PATH,
-        base_model=BASE_MODEL,
-        dataset_name=DATASET_NAME,
-        subset=SUBSET,
-        split=SPLIT,
-        max_samples=MAX_SAMPLES,
-        batch_size=BATCH_SIZE,
-        output_dir=str(OUTPUT_DIR),
-        output_name=OUTPUT_NAME,
-        language=LANGUAGE,
-        task=TASK,
-        normalize_text=NORMALIZE_TEXT,
-        device=DEVICE,
+def get_config() -> argparse.Namespace:
+    parser = argparse.ArgumentParser(description="Evaluate a Whisper model.")
+    parser.add_argument("--model_path", type=str, default=MODEL_PATH, help="Path to the model to evaluate.")
+    parser.add_argument("--base_model", type=str, default=BASE_MODEL, help="Name of the base model.")
+    parser.add_argument("--dataset_name", type=str, default=DATASET_NAME)
+    parser.add_argument("--subset", type=str, default=SUBSET)
+    parser.add_argument("--split", type=str, default=SPLIT)
+    parser.add_argument("--max_samples", type=int, default=MAX_SAMPLES)
+    parser.add_argument("--batch_size", type=int, default=BATCH_SIZE)
+    parser.add_argument("--output_dir", type=str, default=str(OUTPUT_DIR))
+    parser.add_argument("--output_name", type=str, default=OUTPUT_NAME)
+    parser.add_argument("--language", type=str, default=LANGUAGE)
+    parser.add_argument("--task", type=str, default=TASK)
+    parser.add_argument("--normalize_text", type=bool, default=NORMALIZE_TEXT)
+    parser.add_argument("--device", type=str, default=DEVICE)
+    parser.add_argument(
+        "--base",
+        action="store_true",
+        help="Evaluate the base model instead of the fine-tuned model.",
     )
 
+    args = parser.parse_args()
 
-def load_librispeech(args: SimpleNamespace) -> Dataset:
+    if args.base:
+        args.model_path = args.base_model
+
+    return args
+
+
+def load_librispeech(args: argparse.Namespace) -> Dataset:
     """Load LibriSpeech from the local materialized cache when available."""
     if args.subset == "clean":
         local_folder = LOCAL_SPLIT_FOLDER.get(args.split, args.split.replace(".", "_"))
@@ -129,7 +141,7 @@ def load_librispeech(args: SimpleNamespace) -> Dataset:
     return dataset
 
 
-def load_model_and_processor(args: SimpleNamespace):
+def load_model_and_processor(args: argparse.Namespace):
     """Load a merged Whisper checkpoint or a PEFT LoRA adapter checkpoint."""
     device = torch.device(args.device)
     dtype = torch.float16 if args.device == "cuda" else torch.float32
@@ -231,10 +243,11 @@ def safe_metric(metric_fn, reference: str, prediction: str) -> float:
     return float(metric_fn(reference, prediction))
 
 
-def output_paths(args: SimpleNamespace) -> tuple[Path, Path]:
+def output_paths(args: argparse.Namespace) -> tuple[Path, Path]:
     output_dir = Path(args.output_dir)
     output_dir.mkdir(parents=True, exist_ok=True)
-    stem = args.output_name or f"librispeech_{args.subset}_{args.split}_wer_cer"
+    suffix = "_base" if getattr(args, "base", False) else ""
+    stem = args.output_name or f"librispeech_{args.subset}_{args.split}{suffix}_wer_cer"
     return output_dir / f"{stem}.csv", output_dir / f"{stem}_summary.json"
 
 
