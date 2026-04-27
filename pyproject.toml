@@ -8,6 +8,7 @@ dependencies = [
     "accelerate>=1.13.0",
     "datasets>=4.8.4",
     "evaluate>=0.4.6",
+    "fastapi>=0.136.1",
     "gradio>=6.13.0",
     "jiwer>=4.0.0",
     "peft>=0.19.1",
