@@ -146,7 +146,7 @@ with gr.Blocks(title="Whisper Medium STT Demo") as demo:
 if __name__ == "__main__":
     demo.launch(
         server_name="0.0.0.0",   # listen on all interfaces (required for RunPod)
-        server_port=7860,
+        server_port=None,
         share=True,              # set True to get a public gradio.live link
         show_error=True,
         theme=gr.themes.Soft(),
